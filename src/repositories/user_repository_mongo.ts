@@ -1,6 +1,6 @@
 import { Db, ObjectId, WithId } from "mongodb";
 import { UserRepository } from "./user_repository";
-import { NewUserWithHashedPassword, User } from "../domain/users/user";
+import { NewUserWithHashedPassword, User, UserId } from "../domain/users/user";
 
 type DbUser = Omit<User, 'id'>;
 
@@ -19,7 +19,6 @@ export class UserRepositoryMongo implements UserRepository{
     }
 
     async getUser(id: string): Promise<User | null> {
-        // TODO: as any here is wrong, but let's see if it works
         const users = await this.collection.find({ _id: new ObjectId(id) }).toArray();
 
         if (!users || !users.length) {
@@ -33,7 +32,7 @@ export class UserRepositoryMongo implements UserRepository{
         username,
         email,
         passwordHash
-    }: NewUserWithHashedPassword): Promise<string | null> {
+    }: NewUserWithHashedPassword): Promise<UserId["id"] | null> {
         const result = await this.collection.insertOne({
             username,
             email,
