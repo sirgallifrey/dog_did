@@ -1,22 +1,22 @@
 export interface UserId {
-    id: string
+    id: string;
 }
 
 export interface NewUser {
-    username: string;
+    name: string;
     email: string;
     password: string;
-};
+}
 
 export interface NewUserWithHashedPassword {
-    username: string;
+    name: string;
     email: string;
-    passwordHash: string,
-};
+    passwordHash: string;
+}
 
 export interface User extends UserId {
-    username: string,
-    email: string,
-    passwordHash: string,
-    createdAt: string,
+    name: string;
+    email: string;
+    passwordHash: string;
+    createdAt: string;
 }

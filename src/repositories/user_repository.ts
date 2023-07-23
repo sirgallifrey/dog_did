@@ -1,8 +1,7 @@
-import { NewUser, NewUserWithHashedPassword, User, UserId } from "../domain/users/user";
+import { NewUserWithHashedPassword, User, UserId } from "../domain/users/user";
 
 export interface UserRepository {
-    createUser(newUser: NewUserWithHashedPassword): Promise<UserId["id"] | null>;
+    createUser(newUser: NewUserWithHashedPassword): Promise<UserId>;
     getUser(id: string): Promise<User | null>;
-    // getUsers();
-    // updateUser();
+    getUserByEmail(email: string): Promise<User | null>;
 }

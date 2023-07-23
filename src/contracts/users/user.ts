@@ -18,9 +18,9 @@ export const GetUserParamsSchema = UserIdSchema.extend({}).describe("Get user pa
  * User data
  */
 export const UserSchema = UserIdSchema.extend({
-    username: z.string(),
+    name: z.string(),
     email: z.string().email(),
-    createdAt: z.date(),
+    createdAt: z.string().datetime(),
 }).describe("User data");
 
 /**
@@ -28,7 +28,7 @@ export const UserSchema = UserIdSchema.extend({
  */
 export const NewUserSchema = z
     .object({
-        username: z.string(),
+        name: z.string(),
         email: z.string().email(),
         password: z.string().min(8, "Password cannot be shorter than 8 characters"),
     })
@@ -43,5 +43,5 @@ export const EditUserSchema = NewUserSchema.extend({}).describe("Edit user Messa
  * User data as seen by other users.
  */
 export const PublicUserSchema = UserIdSchema.extend({
-    username: z.string(),
+    name: z.string(),
 }).describe("User data as seen by other users");
