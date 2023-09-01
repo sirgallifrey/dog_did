@@ -1,13 +1,12 @@
 import { FastifyInstance } from "fastify";
 import { setupZod } from "./zod";
 import { setupMysqlConnection } from "./mysql_connection";
-import { setupHandlers } from "./handlers";
-import { setupDependencies } from "./dependencies";
+import { register } from "./container_registrations";
+import { registerRoutes } from "../handlers/routes";
 
 export async function setup(instance: FastifyInstance) {
     await setupMysqlConnection(instance);
+    register(instance);
     const typedInstance = await setupZod(instance);
-    // TODO: poor man's dependency injection.
-    const dependencies = setupDependencies(instance);
-    setupHandlers(typedInstance.zod, dependencies);
+    registerRoutes(typedInstance.zod);
 }

@@ -45,6 +45,7 @@ CREATE TABLE `events` (
     `petId` VARCHAR(26) NOT NULL,
     `createdBy` VARCHAR(26) NOT NULL,
     `date` DATETIME NOT NULL,
+    -- they say enums always come back to hunt you... Should we use it here?
     `type` ENUM(
         'food',
         'water',

@@ -20,7 +20,7 @@ const start = async () => {
     try {
         await setup(fastify);
         const address = await fastify.listen({ port: 3000 });
-        fastify.log.info(`Documentation at ${address}/documentation`)
+        fastify.log.info(`Documentation at ${address}/documentation`);
     } catch (err) {
         fastify.log.error(err);
         process.exit(1);
