@@ -48,14 +48,13 @@ export class PackRepositoryImpl implements PackRepository {
     async createPack(pack: NewPack, ownerId: string, pets: CreatePetInput[]): Promise<PackId> {
         const packId = createId();
         await this.db.transaction().execute(async (trx) => {
-            const what = await trx
+            await trx
                 .insertInto("packs")
                 .values({
                     ...pack,
                     id: packId,
                 })
                 .executeTakeFirstOrThrow();
-            console.log("&&&&&&", what);
 
             await trx
                 .insertInto("pack_member")

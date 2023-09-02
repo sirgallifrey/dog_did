@@ -1,10 +1,10 @@
-import { Route } from "../instance";
+import { Route } from "../route";
 import { tags } from "./common";
 
 export const getPackPets = new Route();
 
 getPackPets.get(
-    "/packs/:id/pets",
+    "/api/packs/:id/pets",
     {
         tags,
         operationId: "getPackPets",

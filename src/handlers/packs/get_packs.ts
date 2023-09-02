@@ -1,10 +1,10 @@
-import { Route } from "../instance";
+import { Route } from "../route";
 import { tags } from "./common";
 
 export const getPacks = new Route();
 
 getPacks.get(
-    "/packs",
+    "/api/packs",
     {
         tags,
         operationId: "getPacks",
@@ -15,8 +15,7 @@ getPacks.get(
     },
     async ({ scope }, reply) => {
         try {
-            // TODO: get user id from auth
-            const packs = await scope.packService.getUserPacks("opb5g0ttvoovydzkkiy4ce6vd8");
+            const packs = await scope.packService.getUserPacks(scope.authClaims!.userId);
             reply.code(200).send({
                 packs,
                 // TODO: implement pagination

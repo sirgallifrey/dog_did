@@ -1,10 +1,10 @@
-import { Route } from "../instance";
+import { Route } from "../route";
 import { tags } from "./common";
 
 export const postPack = new Route();
 
 postPack.post(
-    "/packs",
+    "/api/packs",
     {
         tags,
         operationId: "createNewPack",
@@ -17,7 +17,7 @@ postPack.post(
     async ({ body: packPayload, scope }, reply) => {
         try {
             const { pets, ...pack } = packPayload;
-            await scope.packService.createPack(pack, "opb5g0ttvoovydzkkiy4ce6vd8", pets);
+            await scope.packService.createPack(pack, scope.authClaims!.userId, pets);
             reply.code(201).send();
         } catch (err) {
             // TODO: better error handling

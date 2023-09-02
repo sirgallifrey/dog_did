@@ -1,7 +1,12 @@
+-- Make sure we are in UTC
+SET
+    GLOBAL time_zone = '+00:00';
+
 -- create "users" table
 CREATE TABLE `users` (
     `id` VARCHAR(26) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
+    -- we need to change collation to make email case insensitive
     `email` VARCHAR(255) NOT NULL,
     `passwordHash` VARCHAR(255) NOT NULL,
     `createdAt` DATETIME NOT NULL,

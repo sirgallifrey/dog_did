@@ -1,10 +1,10 @@
-import { Route } from "../instance";
+import { Route } from "../route";
 import { tags } from "./common";
 
 export const postUser = new Route();
 
 postUser.post(
-    "/users",
+    "/api/users",
     {
         tags,
         operationId: "createNewUser",
@@ -19,6 +19,7 @@ postUser.post(
             const userId = await scope.userService.createUser(newUser);
             reply.code(201).send(userId);
         } catch (err) {
+            scope.logger.error(err);
             // TODO: better error handling
             reply.code(500);
         }

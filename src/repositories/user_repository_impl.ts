@@ -10,7 +10,7 @@ export class UserRepositoryImpl implements UserRepository {
     constructor(private readonly db: DB) {}
 
     async getUser(id: string): Promise<User | null> {
-        const user = await this.db.selectFrom("users").where("id", "=", id).selectAll().executeTakeFirst();
+        const user = await this.db.selectFrom("users").where("id", "=", id).selectAll().limit(1).executeTakeFirst();
 
         if (!user) {
             return null;
@@ -20,7 +20,12 @@ export class UserRepositoryImpl implements UserRepository {
     }
 
     async getUserByEmail(email: string): Promise<User | null> {
-        const user = await this.db.selectFrom("users").where("email", "=", email).selectAll().executeTakeFirst();
+        const user = await this.db
+            .selectFrom("users")
+            .where("email", "=", email)
+            .selectAll()
+            .limit(1)
+            .executeTakeFirst();
 
         if (!user) {
             return null;
@@ -28,7 +33,6 @@ export class UserRepositoryImpl implements UserRepository {
 
         return user;
     }
-
     async createUser({ name, email, passwordHash }: NewUserWithHashedPassword): Promise<UserId> {
         const id = createId();
         await this.db

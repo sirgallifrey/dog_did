@@ -1,10 +1,10 @@
-import { Route } from "../instance";
+import { Route } from "../route";
 import { tags } from "./common";
 
 export const getUser = new Route();
 
 getUser.get(
-    "/users/:id",
+    "/api/users/:id",
     {
         tags,
         operationId: "getUser",

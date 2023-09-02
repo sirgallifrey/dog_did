@@ -11,12 +11,26 @@ export type TypedFastifyInstance = FastifyZod<typeof ContractSchemas>;
 
 type InstanceInjector = (f: TypedFastifyInstance) => unknown;
 
+//type Method = "get" | "post" | "patch" | "put" | "delete" | "head" | "options";
+
 interface InjectableRoute {
     apply: InstanceInjector;
+    //withTags: (tags: string[]) => InjectableRoute;
 }
 
 export class Route {
     private delegator: InstanceInjector;
+
+    // private overrideConfig = <M extends Method, T extends TypedFastifyInstance[M] = TypedFastifyInstance[M]>(
+    //     config: Parameters<T>[1]
+    // ): Parameters<T>[1] => {
+    //     const newConfig = {
+    //         ...config,
+    //         tags: this.extraTags.concat(config.tags || []),
+    //     };
+
+    //     return newConfig;
+    // };
 
     apply = (f: TypedFastifyInstance) => this.delegator(f);
 

@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "isolatedModules": true,
+        "moduleResolution": "NodeNext",
+        "noImplicitAny": false,
+        "rootDir": "./src",
+        "strictNullChecks": true,
+        "target": "ES2022",
+        "types": ["./src/definitions.d.ts"]
+    },
+    "include": ["src/*"],
+    "exclude": ["node_modules", "scripts"]
+}

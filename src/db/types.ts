@@ -1,3 +1,8 @@
+/**
+ * This file was auto-generated from the database definition, if this is out of sync with the database schema
+ * run the generation again.
+ */
+
 import type { ColumnType } from "kysely";
 
 export type Decimal = ColumnType<string, string | number, string | number>;

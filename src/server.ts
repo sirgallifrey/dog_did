@@ -1,3 +1,4 @@
+import "dotenv/config";
 import Fastify from "fastify";
 import { setup } from "./setup/setup";
 
