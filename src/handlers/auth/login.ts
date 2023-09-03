@@ -1,21 +1,21 @@
+import { LoginSchema, TokenResponseSchema } from "../../contracts/auth/login";
+import { ErrorSchema } from "../../contracts/errors/error";
 import { Route } from "../route";
 
-export const login = new Route();
-
-login.post(
-    "/api/auth/login",
-    {
+export const login = new Route({
+    url: "/auth/login",
+    method: "POST",
+    schema: {
         tags: ["Auth"],
         operationId: "Login",
         summary: "Get Bearer token",
-        body: "LoginSchema",
+        body: LoginSchema,
         response: {
-            200: "TokenResponseSchema",
-            // TODO: Create proper error message
-            401: "ErrorSchema",
+            200: TokenResponseSchema,
+            401: ErrorSchema,
         },
     },
-    async ({ body, scope }, reply) => {
+    handler: async ({ body, scope }, reply) => {
         const replyError = () => {
             reply.code(401).send({ message: "Email or Password invalid." });
         };
@@ -39,5 +39,5 @@ login.post(
         });
 
         reply.code(200).send({ token });
-    }
-);
+    },
+});

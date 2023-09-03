@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { Type } from "@sinclair/typebox";
 
 // TODO: Enhance
-export const ErrorSchema = z.object({
-    message: z.string()
-})
+export const ErrorSchema = Type.Object({
+    message: Type.String(),
+});

@@ -1,5 +1,5 @@
-import { z } from "zod";
+import { Type } from "@sinclair/typebox";
 
-export const PackNotFoundErrorSchema = z.object({
-    message: z.string(),
+export const PackNotFoundErrorSchema = Type.Object({
+    message: Type.String(),
 });

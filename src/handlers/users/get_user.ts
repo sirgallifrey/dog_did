@@ -1,21 +1,22 @@
+import { GetUserParamsSchema, UserSchema } from "../../contracts/users/user";
+import { UserNotFoundErrorSchema } from "../../contracts/users/user_errors";
 import { Route } from "../route";
 import { tags } from "./common";
 
-export const getUser = new Route();
-
-getUser.get(
-    "/api/users/:id",
-    {
+export const getUser = new Route({
+    url: "/users/:id",
+    method: "GET",
+    schema: {
         tags,
         operationId: "getUser",
         summary: "Get user",
-        params: "GetUserParamsSchema",
+        params: GetUserParamsSchema,
         response: {
-            200: "UserSchema",
-            404: "UserNotFoundErrorSchema",
+            200: UserSchema,
+            404: UserNotFoundErrorSchema,
         },
     },
-    async ({ params, scope }, reply) => {
+    handler: async ({ params, scope }, reply) => {
         try {
             const user = await scope.userService.getUser(params.id);
             if (!user) {
@@ -28,5 +29,5 @@ getUser.get(
             // TODO: better error handling
             reply.code(500);
         }
-    }
-);
+    },
+});

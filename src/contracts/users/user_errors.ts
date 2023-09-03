@@ -1,5 +1,5 @@
-import { z } from "zod";
+import { Type } from "@sinclair/typebox";
 
-export const UserNotFoundErrorSchema = z.object({
-    message: z.string()
+export const UserNotFoundErrorSchema = Type.Object({
+    message: Type.String(),
 });

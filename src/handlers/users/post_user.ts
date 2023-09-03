@@ -1,27 +1,21 @@
+import { ErrorSchema } from "../../contracts/errors/error";
+import { NewUserSchema, UserIdSchema } from "../../contracts/users/user";
 import { Route } from "../route";
 import { tags } from "./common";
+import { TypedFastifyInstance } from "fastify";
 
-export const postUser = new Route();
-
-postUser.post(
-    "/api/users",
-    {
-        tags,
-        operationId: "createNewUser",
-        summary: "Create new user",
-        body: "NewUserSchema",
+export const postUser = new Route({
+    url: "/users",
+    method: "POST",
+    schema: {
+        body: NewUserSchema,
         response: {
-            201: "UserIdSchema",
+            201: UserIdSchema,
+            500: ErrorSchema,
         },
     },
-    async ({ body: newUser, scope }, reply) => {
-        try {
-            const userId = await scope.userService.createUser(newUser);
-            reply.code(201).send(userId);
-        } catch (err) {
-            scope.logger.error(err);
-            // TODO: better error handling
-            reply.code(500);
-        }
-    }
-);
+    handler: async ({ body, scope }, reply) => {
+        const userId = await scope.userService.createUser(body);
+        reply.code(201).send(userId);
+    },
+});

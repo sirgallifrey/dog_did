@@ -1,5 +1,16 @@
-import { FastifyZod } from "fastify-zod";
-import { ContractSchemas } from "../contracts";
+import {
+    ContextConfigDefault,
+    FastifySchema,
+    RawReplyDefaultExpression,
+    RawRequestDefaultExpression,
+    RawServerDefault,
+    RouteGenericInterface,
+    RouteOptions,
+    TypedFastifyInstance,
+} from "fastify";
+import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import { merge } from "lodash";
+import { PartialDeep } from "type-fest";
 
 /**
  * All the helpers in this file serve the purpose of adding dependency inversion, so we can define
@@ -7,54 +18,44 @@ import { ContractSchemas } from "../contracts";
  * zod + fastify-zod
  */
 
-export type TypedFastifyInstance = FastifyZod<typeof ContractSchemas>;
-
 type InstanceInjector = (f: TypedFastifyInstance) => unknown;
 
-//type Method = "get" | "post" | "patch" | "put" | "delete" | "head" | "options";
+type OptionsOverride = PartialDeep<RouteOptions>;
 
 interface InjectableRoute {
     apply: InstanceInjector;
-    //withTags: (tags: string[]) => InjectableRoute;
+    override: (opts: OptionsOverride) => void;
 }
 
-export class Route {
-    private delegator: InstanceInjector;
+export class Route<
+    RouteGeneric extends RouteGenericInterface = RouteGenericInterface,
+    ContextConfig = ContextConfigDefault,
+    SchemaCompiler extends FastifySchema = FastifySchema
+> {
+    constructor(
+        private opts: RouteOptions<
+            RawServerDefault,
+            RawRequestDefaultExpression<RawServerDefault>,
+            RawReplyDefaultExpression<RawServerDefault>,
+            RouteGeneric,
+            ContextConfig,
+            SchemaCompiler,
+            TypeBoxTypeProvider
+        >
+    ) {}
 
-    // private overrideConfig = <M extends Method, T extends TypedFastifyInstance[M] = TypedFastifyInstance[M]>(
-    //     config: Parameters<T>[1]
-    // ): Parameters<T>[1] => {
-    //     const newConfig = {
-    //         ...config,
-    //         tags: this.extraTags.concat(config.tags || []),
-    //     };
-
-    //     return newConfig;
-    // };
-
-    apply = (f: TypedFastifyInstance) => this.delegator(f);
-
-    get: TypedFastifyInstance["get"] = (...args) => {
-        this.delegator = (f: TypedFastifyInstance) => f.get(...args);
-    };
-    head: TypedFastifyInstance["head"] = (...args) => {
-        this.delegator = (f: TypedFastifyInstance) => f.head(...args);
-    };
-    post: TypedFastifyInstance["post"] = (...args) => {
-        this.delegator = (f: TypedFastifyInstance) => f.post(...args);
-    };
-    put: TypedFastifyInstance["put"] = (...args) => {
-        this.delegator = (f: TypedFastifyInstance) => f.put(...args);
-    };
-    patch: TypedFastifyInstance["patch"] = (...args) => {
-        this.delegator = (f: TypedFastifyInstance) => f.patch(...args);
-    };
-    delete: TypedFastifyInstance["delete"] = (...args) => {
-        this.delegator = (f: TypedFastifyInstance) => f.delete(...args);
+    apply = (f: TypedFastifyInstance) => f.route(this.opts);
+    override = (newOpts: OptionsOverride) => {
+        this.opts = merge(this.opts, newOpts);
     };
 }
 
-export const routes =
-    (...routes: InjectableRoute[]) =>
-    (f: TypedFastifyInstance) =>
-        routes.forEach((r) => r.apply(f));
+export class Routes {
+    private routes: InjectableRoute[];
+    constructor(...routes: InjectableRoute[]) {
+        this.routes = routes;
+    }
+
+    apply = (f: TypedFastifyInstance) => this.routes.forEach((r) => r.apply(f));
+    override = (opts: OptionsOverride) => this.routes.forEach((r) => r.override(opts));
+}

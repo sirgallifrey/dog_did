@@ -1,21 +1,23 @@
+import { GetPackParamsSchema } from "../../contracts/pets/pack";
+import { PackNotFoundErrorSchema } from "../../contracts/pets/pack_errors";
+import { PetCollection } from "../../contracts/pets/pet";
 import { Route } from "../route";
 import { tags } from "./common";
 
-export const getPackPets = new Route();
-
-getPackPets.get(
-    "/api/packs/:id/pets",
-    {
+export const getPackPets = new Route({
+    url: "/packs/:id/pets",
+    method: "GET",
+    schema: {
         tags,
         operationId: "getPackPets",
         summary: "Get Pack Pets",
-        params: "GetPackParamsSchema",
+        params: GetPackParamsSchema,
         response: {
-            200: "PackSchema",
-            404: "PackNotFoundErrorSchema",
+            200: PetCollection,
+            404: PackNotFoundErrorSchema,
         },
     },
-    async ({ params, scope }, reply) => {
+    handler: async ({ params, scope }, reply) => {
         try {
             const pets = await scope.packService.getPackPets(params.id);
 
@@ -32,5 +34,5 @@ getPackPets.get(
             // TODO: better error handling
             reply.code(500);
         }
-    }
-);
+    },
+});

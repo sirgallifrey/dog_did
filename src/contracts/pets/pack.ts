@@ -1,60 +1,83 @@
-import { z } from "zod";
+import { Type } from "@sinclair/typebox";
 import { NewPetSchema } from "./pet";
 import { PaginatedSchema } from "../common/pagination";
 
-export const PackMemberRole = z.enum(["owner", "admin", "member"]);
+enum PackMemberRoleEnum {
+    owner = "owner",
+    admin = "admin",
+    member = "member",
+}
 
-export const PackMemberSchema = z.object({
-    userId: z.string().min(1),
+export const PackMemberRole = Type.Enum(PackMemberRoleEnum);
+
+export const PackMemberSchema = Type.Object({
+    userId: Type.String({ minLength: 1 }),
     role: PackMemberRole,
 });
 
 /**
  * Pack params
  */
-export const PackIdSchema = z
-    .object({
-        id: z.string(),
-    })
-    .describe("Pack Id");
+export const PackIdSchema = Type.Object(
+    {
+        id: Type.String(),
+    },
+    { description: "Pack Id" }
+);
 
 /**
  * Get Pack params
  */
-export const GetPackParamsSchema = PackIdSchema.extend({}).describe("Get Pack params");
+export const GetPackParamsSchema = Type.Composite([PackIdSchema], { description: "Get Pack params" });
 
 /**
  * Pack Data
  */
-export const PackSchema = PackIdSchema.extend({
-    name: z.string(),
-}).describe("Pack data");
+export const PackSchema = Type.Composite(
+    [
+        PackIdSchema,
+        Type.Object({
+            name: Type.String(),
+        }),
+    ],
+    { description: "Pack data" }
+);
 
 /**
  * New Pack being created
  */
-export const NewPackSchema = z
-    .object({
-        name: z.string(),
-        pets: z.array(NewPetSchema),
-    })
-    .describe("New Pack message");
+export const NewPackSchema = Type.Object(
+    {
+        name: Type.String(),
+        pets: Type.Array(NewPetSchema),
+    },
+    { description: "New Pack message" }
+);
 
 /**
  * Subject data For editing.
  */
-export const EditPackSchema = NewPackSchema.extend({}).describe("Edit Pack message");
+export const EditPackSchema = Type.Composite([NewPackSchema], {
+    description: "Edit Pack message",
+});
 
 /**
  * Pack data as seen by other users.
  */
-export const PublicPackSchema = z
-    .object({
-        id: z.string(),
-        name: z.string(),
-    })
-    .describe("Pack data as seen by non member users");
+export const PublicPackSchema = Type.Object(
+    {
+        id: Type.String(),
+        name: Type.String(),
+    },
+    { description: "Pack data as seen by non member users" }
+);
 
-export const PackCollectionSchema = PaginatedSchema.extend({
-    packs: z.array(PackSchema),
-}).describe("Paginated Pack collection");
+export const PackCollectionSchema = Type.Composite(
+    [
+        PaginatedSchema,
+        Type.Object({
+            packs: Type.Array(PackSchema),
+        }),
+    ],
+    { description: "Paginated Pack collection" }
+);

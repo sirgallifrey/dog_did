@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         "alwaysStrict": true,
-        "isolatedModules": true,
         "moduleResolution": "NodeNext",
         "noImplicitAny": false,
         "rootDir": "./src",

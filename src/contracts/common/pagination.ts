@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { Type } from "@sinclair/typebox";
 
-export const PaginatedSchema = z.object({
-    pagination: z.object({
-        page: z.number().describe("Page number. Starts at 1"),
-        pageSize: z.number().describe("How many elements on a page"),
-        total: z.number().describe("Total number of elements"),
+export const PaginatedSchema = Type.Object({
+    pagination: Type.Object({
+        page: Type.Number({ description: "Page number. Starts at 1" }),
+        pageSize: Type.Number({ description: "How many elements on a page" }),
+        total: Type.Number({ description: "Total number of elements" }),
     }),
 });
