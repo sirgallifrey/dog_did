@@ -6,8 +6,9 @@
         "rootDir": "./src",
         "strictNullChecks": true,
         "target": "ES2022",
+        "isolatedModules": true,
         "types": ["./src/definitions.d.ts"]
     },
-    "include": ["src/*"],
+    "include": ["src/**/*"],
     "exclude": ["node_modules", "scripts"]
 }

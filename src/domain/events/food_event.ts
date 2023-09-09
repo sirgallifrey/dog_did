@@ -1,11 +1,15 @@
-import { BaseNewEventData, EventId, RawEvent, UpsertRawEvent, baseFromRawEvent, baseToRawEvent } from "./event";
+import { Id } from "../common/id";
+import { BaseNewEventData, baseFromRawEvent, baseToRawEvent } from "./base_event";
+import { EventTypes } from "./event_type";
+import { RawEvent, UpsertRawEvent } from "./raw_event";
 
-export interface NewFoodEventData extends BaseNewEventData {
+export interface NewFoodEventData extends Omit<BaseNewEventData, "type"> {
+    type: typeof EventTypes.FOOD;
     grams: number;
-    food: string | null;
+    food?: string;
 }
 
-export interface FoodEventData extends NewFoodEventData, EventId {}
+export interface FoodEventData extends NewFoodEventData, Id {}
 
 export function foodToRawEvent(data: NewFoodEventData | FoodEventData): UpsertRawEvent {
     const result = baseToRawEvent(data);
@@ -17,6 +21,6 @@ export function foodToRawEvent(data: NewFoodEventData | FoodEventData): UpsertRa
 export function foodFromRawEvent(data: RawEvent): FoodEventData {
     const result = baseFromRawEvent(data) as FoodEventData;
     result.grams = data.number || 0;
-    result.food = data.string;
+    result.food = data.string ?? undefined;
     return result;
 }

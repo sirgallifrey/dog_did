@@ -1,10 +1,14 @@
-import { BaseNewEventData, EventId, RawEvent, UpsertRawEvent, baseFromRawEvent, baseToRawEvent } from "./event";
+import { Id } from "../common/id";
+import { BaseNewEventData, baseFromRawEvent, baseToRawEvent } from "./base_event";
+import { EventTypes } from "./event_type";
+import { RawEvent, UpsertRawEvent } from "./raw_event";
 
-export interface NewWeightEventData extends BaseNewEventData {
+export interface NewWeightEventData extends Omit<BaseNewEventData, "type"> {
+    type: typeof EventTypes.WEIGHT;
     kilograms: number;
 }
 
-export interface WeightEventData extends NewWeightEventData, EventId {}
+export interface WeightEventData extends NewWeightEventData, Id {}
 
 export function weightToRawEvent(data: NewWeightEventData | WeightEventData): UpsertRawEvent {
     const result = baseToRawEvent(data);

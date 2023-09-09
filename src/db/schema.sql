@@ -6,7 +6,7 @@ SET
 CREATE TABLE `users` (
     `id` VARCHAR(26) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
-    -- we need to change collation to make email case insensitive
+    -- TODO: we need to change collation to make email case insensitive
     `email` VARCHAR(255) NOT NULL,
     `passwordHash` VARCHAR(255) NOT NULL,
     `createdAt` DATETIME NOT NULL,
@@ -70,6 +70,7 @@ CREATE TABLE `events` (
     `number` DECIMAL,
     -- Which food the dog ate? Or which medicine they took
     `string` VARCHAR(255),
+    `comments` TEXT,
     PRIMARY KEY(`id`),
     INDEX (`date`),
     FOREIGN KEY (`petId`) REFERENCES `pets`(id) ON DELETE RESTRICT,

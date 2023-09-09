@@ -16,6 +16,7 @@ export interface Events {
   duration: Decimal | null;
   number: Decimal | null;
   string: string | null;
+  comments: string | null;
 }
 
 export interface PackMember {

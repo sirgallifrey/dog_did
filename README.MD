@@ -3,16 +3,9 @@
 To run this project locally you need the following software:
 
 - nodejs
-
-## For Database:
-
 - [Atlas](https://atlasgo.io/getting-started) (for managing DB schema) 
-
-Either (Recommended):
 - docker
 - docker-composer
-Or:
-- Mysql v8
 
 # Running locally
 
