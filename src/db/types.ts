@@ -29,6 +29,7 @@ export interface PackMember {
 export interface Packs {
   id: string;
   name: string;
+  deletedAt: string | null;
 }
 
 export interface Pets {
@@ -39,6 +40,7 @@ export interface Pets {
   breed: string | null;
   birthDate: string | null;
   createdAt: string;
+  deletedAt: string | null;
 }
 
 export interface Users {

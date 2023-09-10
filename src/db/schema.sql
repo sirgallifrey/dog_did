@@ -17,7 +17,8 @@ CREATE TABLE `users` (
 -- create "packs" table
 CREATE TABLE `packs` (
     `id` VARCHAR(26) NOT NULL PRIMARY KEY,
-    `name` VARCHAR(255) not NULL
+    `name` VARCHAR(255) not NULL,
+    `deletedAt` DATETIME
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 
 -- create "pack_member" table
@@ -40,6 +41,7 @@ CREATE TABLE `pets` (
     `breed` VARCHAR(100),
     `birthDate` DATETIME,
     `createdAt` DATETIME NOT NULL,
+    `deletedAt` DATETIME,
     PRIMARY KEY(`id`),
     FOREIGN KEY (`packId`) REFERENCES `packs`(id) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;

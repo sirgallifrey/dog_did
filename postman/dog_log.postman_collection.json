@@ -1,0 +1,575 @@
+{
+	"info": {
+		"_postman_id": "3fba5389-a467-4aa0-9966-e76f13f95962",
+		"name": "DogDid",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "243615"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const {token} = pm.response.json();",
+									"",
+									"if (token) {",
+									"    pm.environment.set(\"token\", token)",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Smith\",\n  \"email\": \"test@example.com\",\n  \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Packs and Pets",
+			"item": [
+				{
+					"name": "Get Packs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/packs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"packs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Pack",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Awesome Pack\",\n  \"pets\": [\n    {\n      \"name\": \"Amarelinha\",\n      \"breed\": \"mongrel\",\n      \"color\": \"amarela\",\n      \"birthDate\": \"2023-09-02T21:43:44.337Z\"\n    },\n    {\n      \"name\": \"Chomsky\",\n      \"breed\": \"xiuaua\",\n      \"color\": \"amarela e branco\",\n      \"birthDate\": \"2023-09-02T21:43:44.337Z\"\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/packs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"packs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Pack Pets",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "text"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/packs/{{pack_id}}/pets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"packs",
+								"{{pack_id}}",
+								"pets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "New Events",
+					"item": [
+						{
+							"name": "New Exercise Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"exercise\",\n  \"activity\": \"catching ball\",\n  \"duration\": 30,\n  \"date\": \"2023-01-10T10:13:21Z\",\n  \"comments\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Food Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"food\",\n  \"food\": \"canned chicken\",\n  \"grams\": 32,\n  \"date\": \"2023-01-10T10:13:21Z\",\n  \"comments\": \"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Medicine Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"medicine\",\n  \"medicineName\": \"condotril\",\n  \"quantity\": 1,\n  \"date\": \"2023-02-10T10:13:21Z\",\n  \"comments\": \"Had to mix with sausage so they would eat\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Poop Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"poop\",\n  \"description\": \"soft\",\n  \"date\": \"2023-02-15T10:13:21Z\",\n  \"comments\": \"Probably because of the bone they were eating\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Water Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"water\",\n  \"date\": \"2023-02-25T10:13:21Z\",\n  \"comments\": \"Finally!!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Other Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"other\",\n  \"date\": \"2023-02-25T10:13:21Z\",\n  \"comments\": \"They are feeling a bit down\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Play Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"play\",\n  \"date\": \"2023-02-25T13:13:21Z\",\n  \"comments\": \"They were running around the house\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Pee Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"pee\",\n  \"date\": \"2023-02-25T22:13:21Z\",\n  \"comments\": \"On the couch...\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Walk Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"walk\",\n  \"duration\": 120,\n  \"kilometers\": 5,\n  \"date\": \"2023-03-15T10:13:21Z\",\n  \"comments\": \"The park as sunny\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Weight Event",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"petId\": \"{{pet_id}}\",\n  \"type\": \"weight\",\n  \"kilograms\": 5.5,\n  \"date\": \"2023-04-01T10:13:21Z\",\n  \"comments\": \"New diet is slowly giving results\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/events",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"events"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "List Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/events?fromDate=2023-02-25T00:00:00.000Z&toDate=2023-03-15T23:59:59.000Z",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"events"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "pee",
+									"disabled": true
+								},
+								{
+									"key": "type",
+									"value": "exercise",
+									"disabled": true
+								},
+								{
+									"key": "fromDate",
+									"value": "2023-02-25T00:00:00.000Z"
+								},
+								{
+									"key": "toDate",
+									"value": "2023-03-15T23:59:59.000Z"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/events/{{event_id}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"events",
+								"{{event_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/events/{{delete_event_id}}",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"events",
+								"{{delete_event_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "pack_id",
+			"value": "pb72whtdpn8drvktvwaf0dvfky"
+		},
+		{
+			"key": "baseurl",
+			"value": "localhost:3000"
+		}
+	]
+}
