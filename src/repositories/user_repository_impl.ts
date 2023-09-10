@@ -33,6 +33,7 @@ export class UserRepositoryImpl implements UserRepository {
 
         return user;
     }
+
     async createUser({ name, email, passwordHash }: NewUserWithHashedPassword): Promise<UserId> {
         const id = createId();
         await this.db

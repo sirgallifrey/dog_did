@@ -5,6 +5,10 @@ import { RawEvent, UpsertRawEvent } from "./raw_event";
 import { NewFoodEventData, FoodEventData, foodToRawEvent, foodFromRawEvent } from "./food_event";
 import { NewWeightEventData, WeightEventData, weightFromRawEvent, weightToRawEvent } from "./weight_event";
 import { NewSimpleEventData, SimpleEventData, simpleFromRawEvent, simpleToRawEvent } from "./simple_event";
+import { ExerciseEventData, NewExerciseEventData, exerciseFromRawEvent, exerciseToRawEvent } from "./exercise_event";
+import { MedicineEventData, NewMedicineEventData, medicineFromRawEvent, medicineToRawEvent } from "./medicine_event";
+import { NewPoopEventData, PoopEventData, poopFromRawEvent, poopToRawEvent } from "./poop_event";
+import { NewWalkEventData, WalkEventData, walkFromRawEvent, walkToRawEvent } from "./walk_event";
 
 export type ToRawNewEventTypes = BaseNewEventData | NewEvent;
 
@@ -17,13 +21,13 @@ export function toRawEvent(event: ToRawEventTypes): UpsertRawEvent {
         case EventTypes.FOOD:
             return foodToRawEvent(event as NewFoodEventData | FoodEventData);
         case EventTypes.EXERCISE:
-            throw new Error("Not Implemented");
+            return exerciseToRawEvent(event as NewExerciseEventData | ExerciseEventData);
         case EventTypes.MEDICINE:
-            throw new Error("Not Implemented");
+            return medicineToRawEvent(event as NewMedicineEventData | MedicineEventData);
         case EventTypes.POOP:
-            throw new Error("Not Implemented");
+            return poopToRawEvent(event as NewPoopEventData | PoopEventData);
         case EventTypes.WALK:
-            throw new Error("Not Implemented");
+            return walkToRawEvent(event as NewWalkEventData | WalkEventData);
         default:
             return simpleToRawEvent(event as SimpleEventData | NewSimpleEventData);
     }
@@ -36,13 +40,13 @@ export function fromRawEvent(raw: RawEvent): Event {
         case EventTypes.FOOD:
             return foodFromRawEvent(raw);
         case EventTypes.EXERCISE:
-            throw new Error("Not Implemented");
+            return exerciseFromRawEvent(raw);
         case EventTypes.MEDICINE:
-            throw new Error("Not Implemented");
+            return medicineFromRawEvent(raw);
         case EventTypes.POOP:
-            throw new Error("Not Implemented");
+            return poopFromRawEvent(raw);
         case EventTypes.WALK:
-            throw new Error("Not Implemented");
+            return walkFromRawEvent(raw);
         default:
             return simpleFromRawEvent(raw);
     }

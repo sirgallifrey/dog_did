@@ -36,4 +36,9 @@ export const NewFoodEventSchema = Type.Composite(
 export const FoodEventSchema = Type.Composite([IdObjectSchema, CreatedBySchema, NewFoodEventSchema], {
     description: "Food Event data",
     title: "FoodEvent",
+    examples: NewFoodEventSchema.examples!.map((e) => ({
+        id: "k02rpkdpg9rns109ny98vvcsgi",
+        cleatedBy: "wpmgfffsv73wftje84x4smaupe",
+        ...e,
+    })),
 });

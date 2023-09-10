@@ -35,29 +35,31 @@ export class EventRepositoryImpl implements EventRepository {
 
     async findEvents(filters: EventFilters): Promise<Event[]> {
         // TODO: we need to limit somehow how many events we return maximum. One year should be the limit for time filter but even with that, we need some limit for amount of events.
-        const query = await this.db.selectFrom("events").selectAll();
+        let query = this.db.selectFrom("events").selectAll();
 
         if (filters.petId) {
-            query.where("petId", "in", filters.petId);
+            query = query.where("petId", "in", filters.petId);
         }
 
         if (filters.type) {
-            query.where("type", "in", filters.type);
+            query = query.where("type", "in", filters.type);
         }
 
         if (filters.fromDate) {
-            query.where("date", ">=", toDateTime(filters.fromDate));
+            query = query.where("date", ">=", toDateTime(filters.fromDate));
         }
 
         if (filters.toDate) {
-            query.where("date", "<=", toDateTime(filters.toDate));
+            query = query.where("date", "<=", toDateTime(filters.toDate));
         }
+
+        query = query.orderBy("date", "desc");
 
         const rawResult = await query.execute();
         return rawResult.map(mapDBEvent);
     }
     async getEvent(id: string): Promise<Event | null> {
-        const result = await this.db.selectFrom("events").selectAll().executeTakeFirst();
+        const result = await this.db.selectFrom("events").where("id", "=", id).selectAll().executeTakeFirst();
         return result ? mapDBEvent(result) : null;
     }
 

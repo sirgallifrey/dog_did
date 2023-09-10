@@ -11,14 +11,14 @@ export interface NewWalkEventData extends Omit<BaseNewEventData, "type"> {
 
 export interface WalkEventData extends NewWalkEventData, Id {}
 
-export function foodToRawEvent(data: NewWalkEventData | WalkEventData): UpsertRawEvent {
+export function walkToRawEvent(data: NewWalkEventData | WalkEventData): UpsertRawEvent {
     const result = baseToRawEvent(data);
     result.duration = data.duration;
     result.number = data.kilometers;
     return result;
 }
 
-export function foodFromRawEvent(data: RawEvent): WalkEventData {
+export function walkFromRawEvent(data: RawEvent): WalkEventData {
     const result = baseFromRawEvent(data) as WalkEventData;
     result.duration = data.duration || 0;
     result.kilometers = data.number || 0;

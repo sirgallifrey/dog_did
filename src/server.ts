@@ -1,6 +1,7 @@
 import "dotenv/config";
 import Fastify from "fastify";
 import { setup } from "./setup/setup";
+import { createId } from "./infrastructure/cuid";
 
 const fastify = Fastify({
     logger: {

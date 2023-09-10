@@ -10,13 +10,13 @@ export interface NewPoopEventData extends Omit<BaseNewEventData, "type"> {
 
 export interface PoopEventData extends NewPoopEventData, Id {}
 
-export function foodToRawEvent(data: NewPoopEventData | PoopEventData): UpsertRawEvent {
+export function poopToRawEvent(data: NewPoopEventData | PoopEventData): UpsertRawEvent {
     const result = baseToRawEvent(data);
     result.string = data.description;
     return result;
 }
 
-export function foodFromRawEvent(data: RawEvent): PoopEventData {
+export function poopFromRawEvent(data: RawEvent): PoopEventData {
     const result = baseFromRawEvent(data) as PoopEventData;
     result.description = data.string ?? undefined;
     return result;

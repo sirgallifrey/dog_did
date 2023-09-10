@@ -16,7 +16,7 @@ export * from "./simple";
 export * from "./walk";
 export * from "./weight";
 
-export const AnyNewEvent = Type.Union([
+const AnyNewEventSchemaList = [
     NewExerciseEventSchema,
     NewFoodEventSchema,
     NewMedicineEventSchema,
@@ -24,9 +24,14 @@ export const AnyNewEvent = Type.Union([
     NewSimpleEventSchema,
     NewWalkEventSchema,
     NewWeightEventSchema,
-]);
+];
 
-export const AnyEvent = Type.Union([
+export const AnyNewEvent = Type.Union(AnyNewEventSchemaList, {
+    title: "AnyNewEvent",
+    examples: AnyNewEventSchemaList.flatMap((s) => s.examples || []),
+});
+
+const AnyEventSchemaList = [
     ExerciseEventSchema,
     FoodEventSchema,
     MedicineEventSchema,
@@ -34,7 +39,12 @@ export const AnyEvent = Type.Union([
     SimpleEventSchema,
     WalkEventSchema,
     WeightEventSchema,
-]);
+];
+
+export const AnyEvent = Type.Union(AnyEventSchemaList, {
+    title: "AnyEvent",
+    examples: AnyEventSchemaList.flatMap((s) => s.examples || []),
+});
 
 export const AnyEventCollection = Type.Composite(
     [
@@ -43,5 +53,18 @@ export const AnyEventCollection = Type.Composite(
         }),
         PaginatedSchema,
     ],
-    { description: "Collection of Events of any type" }
+    {
+        title: "AnyEventCollection",
+        description: "Collection of Events of any type",
+        examples: [
+            {
+                events: AnyEvent.examples,
+                pagination: {
+                    page: 1,
+                    pageSize: 100,
+                    total: AnyEvent.examples.length,
+                },
+            },
+        ],
+    }
 );

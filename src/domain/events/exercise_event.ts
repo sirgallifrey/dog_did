@@ -14,14 +14,14 @@ export interface NewExerciseEventData extends Omit<BaseNewEventData, "type"> {
 
 export interface ExerciseEventData extends NewExerciseEventData, Id {}
 
-export function foodToRawEvent(data: NewExerciseEventData | ExerciseEventData): UpsertRawEvent {
+export function exerciseToRawEvent(data: NewExerciseEventData | ExerciseEventData): UpsertRawEvent {
     const result = baseToRawEvent(data);
     result.duration = data.duration;
     result.string = data.activity;
     return result;
 }
 
-export function foodFromRawEvent(data: RawEvent): ExerciseEventData {
+export function exerciseFromRawEvent(data: RawEvent): ExerciseEventData {
     const result = baseFromRawEvent(data) as ExerciseEventData;
     result.duration = data.duration || 0;
     result.activity = data.string ?? undefined;

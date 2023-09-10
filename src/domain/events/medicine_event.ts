@@ -11,14 +11,14 @@ export interface NewMedicineEventData extends Omit<BaseNewEventData, "type"> {
 
 export interface MedicineEventData extends NewMedicineEventData, Id {}
 
-export function foodToRawEvent(data: NewMedicineEventData | MedicineEventData): UpsertRawEvent {
+export function medicineToRawEvent(data: NewMedicineEventData | MedicineEventData): UpsertRawEvent {
     const result = baseToRawEvent(data);
     result.number = data.quantity;
     result.string = data.medicineName;
     return result;
 }
 
-export function foodFromRawEvent(data: RawEvent): MedicineEventData {
+export function medicineFromRawEvent(data: RawEvent): MedicineEventData {
     const result = baseFromRawEvent(data) as MedicineEventData;
     result.quantity = data.number || 0;
     result.medicineName = data.string ?? undefined;

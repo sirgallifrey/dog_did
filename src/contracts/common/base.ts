@@ -2,9 +2,9 @@ import { Type } from "@sinclair/typebox";
 
 export const EmptySchema = Type.Object({}, { title: "EmptyObject" });
 
-export const LiteralString = (str: string) => Type.Literal(str, { title: str, examples: [str] });
+export const LiteralString = <T extends string>(str: T) => Type.Literal(str, { title: str, examples: [str] });
 
-export const LiteralStringUnion = (strs: string[]) => Type.Union(strs.map(LiteralString));
+export const LiteralStringUnion = <T extends string>(strs: T[]) => Type.Union(strs.map(LiteralString));
 
 /**
  * Event Id

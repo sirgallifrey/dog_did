@@ -13,7 +13,19 @@ export const NewPoopEventSchema = Type.Composite(
             description: Type.Optional(Type.String()),
         }),
     ],
-    { description: "New Poop Event data", title: "NewPoopEvent" }
+    {
+        description: "New Poop Event data",
+        title: "NewPoopEvent",
+        examples: [
+            {
+                petId: "pb72whtdpn8drvktvwaf0dvfky",
+                type: "poop",
+                description: "soft",
+                date: "2023-02-15T10:13:21Z",
+                comments: "Probably because of the bone they were eating",
+            },
+        ],
+    }
 );
 
 /**
@@ -22,4 +34,9 @@ export const NewPoopEventSchema = Type.Composite(
 export const PoopEventSchema = Type.Composite([IdObjectSchema, CreatedBySchema, NewPoopEventSchema], {
     description: "Poop Event data",
     title: "PoopEvent",
+    examples: NewPoopEventSchema.examples!.map((e) => ({
+        id: "upjf8nqc28hdzaf587604xh1ca",
+        cleatedBy: "wpmgfffsv73wftje84x4smaupe",
+        ...e,
+    })),
 });
