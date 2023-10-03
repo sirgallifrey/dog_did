@@ -5,7 +5,7 @@ import { DB } from "./types";
 
 let db: DB | null = null;
 
-export async function connect(connectionString: string) {
+export function connect(connectionString: string) {
     if (!db) {
         db = new Kysely<GeneratedDB>({
             log: ["query", "error"],
@@ -16,6 +16,18 @@ export async function connect(connectionString: string) {
             }),
         });
     }
+}
+
+/**
+ *
+ * This function might throw if there is a connection problem.
+ */
+export async function isConnected() {
+    if (db) {
+        await db.introspection.getTables();
+        return true;
+    }
+    return false;
 }
 
 export function getDB() {
